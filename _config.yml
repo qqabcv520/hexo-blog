@@ -6,7 +6,7 @@
 title: 米饭博客
 subtitle: ''
 description: ''
-keywords:
+keywords: '米饭博客 博客 米饭 mifan blog'
 author: fanzicai
 language: zh-CN
 timezone: ''
@@ -41,7 +41,7 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 highlight:
@@ -98,4 +98,7 @@ theme: ocean
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: ''
+  type: git
+  repo: git@github.com:qqabcv520/qqabcv520.github.io.git #https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io
+  branch: master
+  #message: 'chore: 更新文章'
