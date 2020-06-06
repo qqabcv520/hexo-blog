@@ -1,6 +1,6 @@
 ---
 title: 使用node.js开发命令行工具（二）命令行输入输出UI库
-date: 2019-03-31 14:27:10
+date: 2019-04-08 09:09:44
 tags:
 ---
 ## commander.js
@@ -61,7 +61,8 @@ inquirer.prompt(
     console.log(answers.type);
 });
 ```
-![](https://user-gold-cdn.xitu.io/2019/3/31/169d1f42e18570fc?w=859&h=125&f=png&s=6611)
+{% asset_img inquirer.js.jpg inquirer.js示例 %}
+
 github仓库：https://github.com/SBoudrias/Inquirer.js
 
 
@@ -85,7 +86,8 @@ setTimeout(() => {
 ```
 <p align="center">
 	<br>
-	<img src="https://user-gold-cdn.xitu.io/2019/3/28/169c4bb0a915e5e1?w=4000&h=0&f=svg&s=16141" width="500">
+	{% asset_img ora.svg ora.js示例 %}
 	<br>
 </p>
+
 github仓库：https://github.com/sindresorhus/ora
