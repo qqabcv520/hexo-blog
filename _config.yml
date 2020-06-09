@@ -102,3 +102,8 @@ deploy:
   repo: git@github.com:qqabcv520/qqabcv520.github.io.git #https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io
   branch: master
   #message: 'chore: 更新文章'
+
+search:
+  path: search.xml
+  field: post
+  content: true
