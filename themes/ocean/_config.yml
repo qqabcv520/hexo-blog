@@ -3,7 +3,7 @@ menu:
   主页: /
   归档: /archives
   相册: /gallery
-  关于: /about
+  GitHub: https://github.com/qqabcv520
 rss: /atom.xml
 
 
@@ -19,7 +19,7 @@ ocean:
   brand: /images/hexo-inverted.svg
 
 # Content
-excerpt_link: Read More...
+excerpt_link:
 
 # Tags
 show_count: false

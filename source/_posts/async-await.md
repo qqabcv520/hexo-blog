@@ -1,8 +1,10 @@
 ---
 title: 当async/await遇到map和reduce
 date: 2019-03-30 13:10:59
-tags:
+tags: [Promise]
 ---
+数组的map、reduce和filter这些方法，使用应该很常见了，但是async function在直接使用map和reduce的时候，就会出现与期望的结果不符的结果了。
+<!--more-->
 ## map
 
 首先我们来看看同步的map怎么写。
