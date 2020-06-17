@@ -1,14 +1,13 @@
 ---
 title: 100行代码实现Virtual DOM和render
-date: 2020-06-06 17:41:58
+date: 2019-08-06 17:41:58
 tags: ["Virtual DOM", "React"]
 ---
-在代码编写代码之前，需要先来了解一下Virtual DOM是怎么样构建并渲染到浏览器的。
+在编写代码之前，我们需要先了解需要先来了解一下Virtual DOM是怎么样构建并渲染到浏览器的，常见的构建Virtual DOM的方法有两种，一种是jsx(react)，另一种是template(vue)。
 <!--more-->
 
 ## 基本原理
-* 首先，常见的构建Virtual DOM的方法有两种，一种是jsx(react)，另一种是template(vue)，react的jsx一般是通过babel的jsx插件编译成`createElement(type, config, children)`[源码](https://github.com/facebook/react/blob/master/packages/react/src/ReactElement.js#L348)，
-vue的template也可以通过vue-loader编译成对应的`createElement(context: Component,tag: any,data: any,children: any,normalizationType: any,alwaysNormalize: boolean): VNode | Array<VNode>`[源码](https://github.com/facebook/react/blob/master/packages/react/src/ReactElement.js#L348)，
+* React的jsx一般是通过babel的jsx插件编译成`createElement`[[源码]](https://github.com/facebook/react/blob/master/packages/react/src/ReactElement.js#L348)，Vue的template也可以通过vue-loader编译成对应的`createElement`[[源码]](https://github.com/facebook/react/blob/master/packages/react/src/ReactElement.js#L348)，
 
 * 然后，在组件被创建并初始化state之后，执行render，将组件的props和state根据jsx(react)或template(vue)，生成一个虚拟DOM树
 
