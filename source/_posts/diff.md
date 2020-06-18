@@ -53,12 +53,12 @@ Vue.prototype._update = function (vnode: VNode, hydrating?: boolean) {
 `__patch__`方法是由`src/core/vdom/patch`下的`createPatchFunction`方法返回的一个闭包函数的，然后赋值到Vue的原型上的，
 
 ```js
-// https://github.com/vuejs/vue/blob/dev/src/platforms/web/runtime/patch.js#L12
+// https://github.com/vuejs/vue/blob/v2.6.11/src/platforms/web/runtime/patch.js#L12
 export const patch: Function = createPatchFunction({ nodeOps, modules })
 ```
 
 ```js
-// https://github.com/vuejs/vue/blob/dev/src/platforms/web/runtime/index.js#L34
+// https://github.com/vuejs/vue/blob/v2.6.11/src/platforms/web/runtime/index.js#L34
 Vue.prototype.__patch__ = inBrowser ? patch : noop
 ```
 
