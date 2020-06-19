@@ -55,8 +55,9 @@ function createElement(type: string, props, ...children) {
   vnode.children = children;
   return vnode;
 }
-
 ```
+
+## render
 
 虚拟DOM挂载到HTML DOM，根据根节点的ID，使用`document.createElement`将虚拟DOM转成HTML DOM，并挂载到rootElement
 ```ts
@@ -126,8 +127,8 @@ export abstract class Component {
 最后再用定义一个挂载方法，创建组件并挂载到真实DOM，并且按顺序执行生命周期即可
 
 ```ts
-export function renderDOM(componentType: Function, props, el?: HTMLElement) {
-    const component = new componentType({...props, el});
+export function renderDOM(componentType: Function, props, selector?: string) {
+    const component = new componentType({...props, el: document.querySelector(selector)});
     component.beforeMount && component.beforeMount();
     component.mount();
     component.mounted && component.mounted();
@@ -136,25 +137,36 @@ export function renderDOM(componentType: Function, props, el?: HTMLElement) {
 
 ```
 
+## 测试运行
+
 Virtual DOM到render的过程基本就完成了，接下来我们定义一个组件，测试调用一下，看看结果
-```ts
 
-export class TestComponent extends Component {
-  buttonText = 'buttonText';
-  clickCount = 1;
-  
-  constructor(props: ComponentProps) {
-    super(props);
+
+```html
+<div id="el"></div>
+
+<script >
+  // 定义组件
+  class TestComponent extends Component {
+    buttonText = 'buttonText';
+    clickCount = 1;
+    
+    constructor(props: ComponentProps) {
+      super(props);
+    }
+    render() {
+      return (<div>
+        <span >hello world</span>
+        <button onclick={() => {console.log('Hello World!', ++this.clickCount)}}>{this.buttonText}</button>
+      </div>);
+    }
   }
-  render() {
-    return (<div>
-      <span >hello world</span>
-      <button onclick={() => {console.log('Hello World!', ++this.clickCount)}}>{this.buttonText}</button>
-    </div>);
-  }
-}
-
-
+  // 渲染到DOM
+  renderDOM(TestComponent, '#el')
+</script>
 ```
 
 {% asset_img mvvm.png 运行结果 %}
+
+
+这仅仅是实现了从Virtual DOM渲染到真实DOM，并没有包含diff算法部分，所以当数据变化之后，并不会重新刷新真实DOM。想要刷新真实DOM，就需要在数据发生变化的时候，根据数据重新render一份vnode树，然后和之前生成的vnode树进行diff并更新真实DOM，具体如何实现diff，后续文章会进行具体讲解。
