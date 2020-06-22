@@ -1,7 +1,6 @@
 # Menu
 menu:
   主页: /
-  归档: /archives
   相册: /gallery
   GitHub: https://github.com/qqabcv520
 rss: /atom.xml
