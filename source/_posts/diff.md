@@ -11,7 +11,7 @@ tags: [diff, 算法, Vue]
 所以如果觉得直接看Vue的diff算法太多干扰，可以直接对照着snabbdom，方便梳理Vue diff的核心代码。本文从组件Watcher中触发`updateComponent`开始讲解，每段代码前都会附带基于**Vue v2.6.11**版本的源码Github地址。
 
 
-## Watch触发diff
+## Watcher触发diff
 
 当`Watcher`监听到data发生变化后，触发`updateComponent`，调用`vm._render()`生成新的vnode树，传入`vm._update`中。
 
