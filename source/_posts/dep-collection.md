@@ -1,6 +1,6 @@
 ---
 title: 深入Vue响应式原理和依赖收集
-date: 2020-06-14 22:31:02
+date: 2020-06-10 22:31:02
 tags: [Vue, 源码解读]
 ---
 每当问到Vue响应式原理，大家可能都会脱口而出“Vue通过`Object.defineProperty`方法把data对象的全部属性转化成getter/setter，当属性被访问或修改时通知变化”。然而，其内部深层的响应式原理可能很多人都没有完全理解，网络上关于其响应式原理的文章质量也是参差不齐。
@@ -333,7 +333,7 @@ export function defineReactive (
 }
 ```
 
-`notify`方法中会调用所有watcher的update方法，默认会将再调用`queueWatcher`把watcher放入更新队列，在nextTick的时候调用watcher的`get()`方法更新依赖收集和渲染视图。
+`notify`方法中会调用所有watcher的update方法，默认为异步更新，会调用`queueWatcher`把watcher放入更新队列，在nextTick的时候调用watcher的`get()`方法更新依赖收集和渲染视图。
 
 ```js
 // https://github.com/vuejs/vue/blob/v2.6.11/src/core/observer/dep.js#L37
