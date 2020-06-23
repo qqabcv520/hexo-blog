@@ -346,3 +346,68 @@ notify () {
   }
 }
 ```
+```js
+// https://github.com/vuejs/vue/blob/v2.6.11/src/core/observer/watcher.js#L164
+update () {
+  /* istanbul ignore else */
+  if (this.lazy) {
+    this.dirty = true
+  } else if (this.sync) {
+    this.run()
+  } else {
+    queueWatcher(this) // 默认情况会进入这个分支语句
+  }
+}
+```
+```js
+// https://github.com/vuejs/vue/blob/v2.6.11/src/core/observer/scheduler.js#L164
+export function queueWatcher (watcher: Watcher) {
+  const id = watcher.id
+  if (has[id] == null) { // 具有重复ID的watcher将被跳过
+    has[id] = true
+    if (!flushing) {
+      queue.push(watcher)
+    }
+    //...
+    nextTick(flushSchedulerQueue) 
+  }
+}
+```
+```js
+// https://github.com/vuejs/vue/blob/v2.6.11/src/core/observer/scheduler.js#L71
+function flushSchedulerQueue () {
+
+  flushing = true
+  let watcher, id
+  
+  // 先排序再执行
+  // 先更新父组件再更新子组件（父组件先创建，ID更小）
+  // 组件的用户定义的watch在render watcher之前运行（因为用户观察者先于渲染观察者创建）
+  // 如果在父组件的watcher运行期间某个组件被销毁，它的watcher可以被跳过。
+  queue.sort((a, b) => a.id - b.id)
+
+  // do not cache length because more watchers might be pushed
+  // as we run existing watchers
+  for (index = 0; index < queue.length; index++) {
+    watcher = queue[index]
+    if (watcher.before) {
+      watcher.before() //执行beforeUpdate回调
+    }
+    //...
+    watcher.run() // 调用
+    //...
+  }
+  //...
+}
+```
+```js
+// https://github.com/vuejs/vue/blob/v2.6.11/src/core/observer/watcher.js#L179
+run () {
+  if (this.active) {
+    const value = this.get() // 重新渲染页面
+    //...
+  }
+}
+```
+
+OK，到此Vue响应式原理和依赖收集的一个完整流程，就走完了
