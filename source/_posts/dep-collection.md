@@ -196,7 +196,7 @@ export function mountComponent (
 
 在`Watcher`的构造函数中，默认会执行一次`this.get()`，get方法会将当前`Watcher`圧栈到`targetStack`栈顶，并把全局的Dep.target设置为`targetStack`栈顶元素。
 
-_因为组件是递归渲染的，每个子组件开始渲染的时候，都要对应一个新的watcher，表示当前访问的data都是该子组件的watcher的依赖，当子组件渲染完毕后，后面在访问的data就是父组件的watcher的依赖，所以这里采用栈结构存放当前被收集watcher。
+因为组件是递归渲染的，每个子组件开始渲染的时候，都要对应一个新的watcher，表示当前访问的data都是该子组件的watcher的依赖，当子组件渲染完毕后，后面在访问的data就是父组件的watcher的依赖，所以这里采用栈结构存放当前被收集watcher。
 
 设置好targetStack后，随后执行`this.getter.call(vm, vm)`，也就是之前传入的`updateComponent`方法，然后调用`vm._render`方法，在执行render的时候，界面所使用的响应式data的getter就会被访问到，就会被收集到栈顶watcher中。
 
