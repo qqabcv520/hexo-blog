@@ -196,7 +196,7 @@ export function mountComponent (
 
 在`Watcher`的构造函数中，默认会执行一次`this.get()`，get方法会将当前`Watcher`圧栈到`targetStack`栈顶，并把全局的Dep.target设置为`targetStack`栈顶元素。
 
-因为组件是递归渲染的，每个子组件开始渲染的时候，都要对应一个新的watcher，表示当前访问的data都是该子组件的watcher的依赖，当子组件渲染完毕后，后面在访问的data就是父组件的watcher的依赖，所以这里采用栈结构存放当前被收集watcher。
+_因为组件是递归渲染的，每个子组件开始渲染的时候，都要对应一个新的watcher，表示当前访问的data都是该子组件的watcher的依赖，当子组件渲染完毕后，后面在访问的data就是父组件的watcher的依赖，所以这里采用栈结构存放当前被收集watcher。_
 
 设置好targetStack后，随后执行`this.getter.call(vm, vm)`，也就是之前传入的`updateComponent`方法，然后调用`vm._render`方法，在执行render的时候，界面所使用的响应式data的getter就会被访问到，就会被收集到栈顶watcher中。
 
@@ -296,7 +296,7 @@ export function defineReactive (
 
 ## 视图更新
 
-当Vue的响应式数据被修改时，也就是`Object.defineProperty`的setter方法会被调用，再次来到`defineReactive`方法中，看一下setter方法是更新视图的。
+当Vue的响应式数据被修改时，也就是`Object.defineProperty`的setter方法会被调用，再次来到`defineReactive`方法中，看一下setter方法是怎样发送通知然后更新视图的。
 
 ```js
 // https://github.com/vuejs/vue/blob/v2.6.11/src/core/observer/index.js#L135
@@ -333,7 +333,7 @@ export function defineReactive (
 }
 ```
 
-`notify`方法中会调用所有watcher的update方法，默认为异步更新，会调用`queueWatcher`把watcher放入更新队列，在nextTick的时候调用watcher的`get()`方法更新依赖收集和渲染视图。
+`notify`方法中会调用所有watcher的`update`方法，默认为异步更新，会调用`queueWatcher`把watcher放入更新队列，在`nextTick`的时候调用watcher的`get()`方法更新依赖收集和渲染视图。
 
 ```js
 // https://github.com/vuejs/vue/blob/v2.6.11/src/core/observer/dep.js#L37
@@ -410,4 +410,4 @@ run () {
 }
 ```
 
-OK，到此Vue响应式原理和依赖收集的一个完整流程，就走完了
+OK，到此Vue响应式原理和依赖收集的一个完整流程，就走完了。
