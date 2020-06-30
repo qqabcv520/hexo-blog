@@ -7,7 +7,7 @@ tags: ["Virtual DOM", "React"]
 <!--more-->
 
 ## 基本原理
-* React的jsx一般是通过babel的jsx插件编译成`createElement`[[源码]](https://github.com/facebook/react/blob/master/packages/react/src/ReactElement.js#L348)，Vue的template也可以通过vue-loader编译成对应的`createElement`[[源码]](https://github.com/facebook/react/blob/master/packages/react/src/ReactElement.js#L348)，
+* React的jsx一般是通过babel的jsx插件编译成`createElement`[[源码]](https://github.com/facebook/react/blob/v16.13.1/packages/react/src/ReactElement.js#L348)，Vue的template也可以通过vue-loader编译成对应的`createElement`[[源码]](https://github.com/vuejs/vue/blob/v2.6.11/src/core/vdom/create-element.js#L28)，
 
 * 然后，在组件被创建并初始化state之后，执行render，将组件的props和state根据jsx(react)或template(vue)，生成一个虚拟DOM树
 
@@ -106,7 +106,7 @@ export abstract class Component {
     
   readonly el: HTMLElement;
 
-  constructor(props: ComponentProps) {
+  constructor(props) {
     if (props) {
       Object.assign(this, props);
     }
@@ -128,12 +128,12 @@ export abstract class Component {
 
 ```ts
 export function renderDOM(componentType: Function, props, selector?: string) {
-    const component = new componentType({...props, el: document.querySelector(selector)});
-    component.beforeMount && component.beforeMount();
-    component.mount();
-    component.mounted && component.mounted();
-    return component;
-  }
+  const component = new componentType({...props, el: document.querySelector(selector)});
+  component.beforeMount && component.beforeMount();
+  component.mount();
+  component.mounted && component.mounted();
+  return component;
+}
 
 ```
 
