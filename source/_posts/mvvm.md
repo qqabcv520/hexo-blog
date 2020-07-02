@@ -19,10 +19,10 @@ Component -> render -> VDOM -> mount -> HTML
 VDOM的节点是一个简化版的DOM对象，只存储了我们关心的属性，大大提高了DOM操作时的性能。通常一个虚拟节点(VNode)包含：标签名、子节点数组、属性、事件、key和对应的真实DOM。
 ```ts
 export class VNode {
-  type: string | Function;
+  type: string;
   children: VNode[] = [];
-  props: { key: string; value: any }[] = [];
-  handles: { key: string; value: () => void }[] = [];
+  props: { propName: string; propValue: any }[] = [];
+  events: { propName: string; propValue: () => void }[] = [];
   key: any;
   el: Node;
 }
@@ -32,9 +32,9 @@ export class VNode {
 ```ts
 function createElement(type: string, props, ...children) {
   props = props || {};
-  const vnode = new VNode();
-  vnode.type = type;
-  vnode.handles = Object.keys(props)
+  const vNode = new VNode();
+  vNode.type = type;
+  vNode.events = Object.keys(props)
     .filter(value => value.startsWith('on'))
     .map(value => {
       return {
@@ -43,7 +43,7 @@ function createElement(type: string, props, ...children) {
       }
     });
 
-  vnode.props = Object.keys(props)
+  vNode.props = Object.keys(props)
     .filter(value => !value.startsWith('on') && value !== 'key')
     .map(value => {
       return {
@@ -51,33 +51,33 @@ function createElement(type: string, props, ...children) {
         propValue: props[value]
       }
     });
-  vnode.key = props['key'];
-  vnode.children = children;
-  return vnode;
+  vNode.key = props['key'];
+  vNode.children = children;
+  return vNode;
 }
 ```
 
 ## render
 
-虚拟DOM挂载到HTML DOM，根据根节点的ID，使用`document.createElement`将虚拟DOM转成HTML DOM，并挂载到rootElement
+虚拟DOM挂载到HTML DOM，根据根节点的ID，使用`document.createElement`将虚拟DOM转成HTML DOM，并挂载到真实节点mountEl下
 ```ts
-function mount(rootElement, vNode: VNode) {
-  const el = createVNode(vNode);
+function mount(el, vNode: VNode) {
+  const node = mountVNode(vNode);
   if (el != null) {
-    rootElement.appendChild(el);
+    el.appendChild(node);
   }
 }
 ```
 
-根据虚拟DOM生成HTML DOM
+根据VNode树生成真实HTML DOM
 ```ts
-function createVNode(vNode: VNode): HTMLElement | Text {
+function mountVNode(vNode: VNode): HTMLElement | Text {
   if (vNode == null) {
     return null;
   }
   if (vNode instanceof VNode) {
     let el: HTMLElement;
-    el = document.createElement(vNode.tagName);
+    el = document.createElement(vNode.type);
     vNode.props.forEach(value => {
       el.setAttribute(value.propName, value.propValue)
     });
@@ -85,7 +85,7 @@ function createVNode(vNode: VNode): HTMLElement | Text {
       el.addEventListener(value.propName.replace(/^on/, ''), value.propValue);
     });
     vNode.children.forEach(value => {
-      const subEl = createVNode(value);
+      const subEl = mountVNode(value);
       if (subEl != null) {
         el.appendChild(subEl);
       }
@@ -101,12 +101,18 @@ function createVNode(vNode: VNode): HTMLElement | Text {
 定义一个所有组件的抽象父组件，实现组件共有的基础功能
 
 ```ts
+interface ComponentProps {
+  el: HTMLElement;
+  [key: string]: any;
+}
 
 export abstract class Component {
-    
-  readonly el: HTMLElement;
 
-  constructor(props) {
+  readonly el: HTMLElement;
+  vNode: VNode;
+  abstract render(): VNode;
+
+  constructor(props: ComponentProps) {
     if (props) {
       Object.assign(this, props);
     }
@@ -114,12 +120,8 @@ export abstract class Component {
 
   protected mount() {
     this.vNode = this.render();
-    const node = this.dom.createElement(this.vNode, this.update.bind(this));
-    this.appendToEl(node);
-  }
-
-  appendToEl(node: Node) {
-    this.el && node && this.dom.appendChild(this.el, node);
+    const node = mountVNode(this.vNode);
+    this.el && node && this.el.appendChild(node);
   }
 }
 ```
@@ -127,14 +129,13 @@ export abstract class Component {
 最后再用定义一个挂载方法，创建组件并挂载到真实DOM，并且按顺序执行生命周期即可
 
 ```ts
-export function renderDOM(componentType: Function, props, selector?: string) {
+export function renderDOM(componentType: { new (props: ComponentProps) }, props, selector?: string) {
   const component = new componentType({...props, el: document.querySelector(selector)});
   component.beforeMount && component.beforeMount();
   component.mount();
   component.mounted && component.mounted();
   return component;
 }
-
 ```
 
 ## 测试运行
