@@ -1,7 +1,7 @@
 ---
 title: 使用node.js开发命令行工具（二）命令行输入输出UI库
 date: 2019-04-08 09:09:44
-tags: ["node.js"]
+tags: ["Node.js"]
 ---
 相信很多前端都听说过或者使用过@angular/cli, vue-cli, create-react-app或其他类似的命令行工具。他们能够在命令行后面跟各种复杂的参数已经交互性的命令行选项，那你知道这些功能是怎么实现的吗？
 <!--more-->
