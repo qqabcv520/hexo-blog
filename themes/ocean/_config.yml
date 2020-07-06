@@ -1,6 +1,7 @@
 # Menu
 menu:
   主页: /
+  标签: /tags
   相册: /gallery
   GitHub: https://github.com/qqabcv520
 rss: /atom.xml
