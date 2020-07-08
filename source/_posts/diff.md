@@ -1,5 +1,5 @@
 ---
-title: Vue中的diff算法
+title: 深入Vue源码理解diff算法
 date: 2020-06-15 14:48:24
 tags: [Vue, 源码解读]
 ---
