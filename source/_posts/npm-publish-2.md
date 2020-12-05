@@ -5,7 +5,7 @@ tags: ["Node.js"]
 ---
 相信很多前端都听说过或者使用过@angular/cli, vue-cli, create-react-app或其他类似的命令行工具。他们能够在命令行后面跟各种复杂的参数已经交互性的命令行选项，那你知道这些功能是怎么实现的吗？
 <!--more-->
-## commander.js
+## Commander.js
 
 node.js命令行开发工具开发库，使node.js开发CLI工具变得简单，允许快捷的定义形如`<command> [options]`的命令。
 
@@ -30,7 +30,7 @@ program
 github仓库：https://github.com/tj/commander.js
 
 
-## inquirer.js
+## Inquirer.js
 
 node.js 交互式命令行界面开发库，允许方便的定义使用上下左右进行列表选择等交互式命令。
 
@@ -68,7 +68,7 @@ inquirer.prompt(
 github仓库：https://github.com/SBoudrias/Inquirer.js
 
 
-## ora
+## Ora
 
 优雅的命令行Loading动画。
 
@@ -93,3 +93,31 @@ setTimeout(() => {
 </p>
 
 github仓库：https://github.com/sindresorhus/ora
+
+
+## Chalk
+
+给命令行输出的文本添加样式
+
+```js
+
+const chalk = require('chalk');
+ 
+// 基本示例
+console.log(chalk.blue('Hello world!'));
+
+// 一行文本多种样式
+console.log(chalk.blue('Hello') + ' World' + chalk.red('!'));
+
+// 复合样式
+console.log(chalk.blue.bgRed.bold('Hello world!'));
+
+```
+
+<p align="center">
+	<br>
+	{% asset_img chalk.svg chalk示例 %}
+	<br>
+</p>
+
+github仓库：https://github.com/chalk/chalk
